@@ -1,4 +1,9 @@
-apply plugin: 'com.android.library'
+if (isUserMoudle.toBoolean()){
+    apply plugin: 'com.android.library'
+}else{
+    apply plugin: 'com.android.application'
+}
+
 
 apply plugin: 'kotlin-android'
 
@@ -25,6 +30,19 @@ android {
         }
     }
 
+    sourceSets{
+        main{
+            if(isUserMoudle.toBoolean()){
+                manifest.srcFile 'src/main/release/AndroidManifest.xml'
+                // release模式下排除debug文件夹中的所有Java文件
+                java{
+                    exclude 'debug/**'
+                }
+            } else {
+                manifest.srcFile 'src/main/debug/AndroidManifest.xml'
+            }
+        }
+    }
 }
 
 dependencies {
