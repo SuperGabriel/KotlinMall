@@ -3,6 +3,8 @@
           package="com.kotlin.user">
 
     <application>
+        <activity android:name=".ui.activity.TestActivity">
+        </activity>
         <activity android:name=".ui.activity.RegisterActivity">
         </activity>
     </application>
