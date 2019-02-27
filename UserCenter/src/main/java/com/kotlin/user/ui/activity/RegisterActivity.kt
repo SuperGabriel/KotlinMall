@@ -15,7 +15,6 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(R.layout.activity_register)
         mRegisterBtn.setOnClickListener{
             startActivity<TestActivity>("id" to 10)
-
             toast("注册")
         }
     }
