@@ -1,32 +1,34 @@
 package com.kotlin.user.presenter
 
+import com.kotlin.base.ext.excute
 import com.kotlin.base.presenter.BasePresenter
+import com.kotlin.base.rx.BaseSubscriber
 import com.kotlin.user.presenter.view.RegisterView
-import com.kotlin.user.service.impl.UserServiceImpl
-import rx.Subscriber
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
+import com.kotlin.user.service.UserService
+import javax.inject.Inject
 
-open class RegisterPresenter : BasePresenter<RegisterView>() {
-    fun register(mobile: String, verifyCode: String, pwd: String) {
-        /*
-        * 业务逻辑
-        * */
-        val userService = UserServiceImpl()
-        userService.register(mobile, verifyCode, pwd)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .subscribe(object : Subscriber<Boolean>(){
-                override fun onNext(t: Boolean) {
-                    mView.onRegisterResult(t)
-                }
+/*
+    用户注册Presenter
+ */
+class RegisterPresenter @Inject constructor() : BasePresenter<RegisterView>() {
 
-                override fun onCompleted() {
-                }
+    @Inject
+    lateinit var userService: UserService
 
-                override fun onError(e: Throwable?) {
-                }
 
-            })
+    fun register(mobile: String, pwd: String, verifyCode: String) {
+        if (!checkNetWork()) {
+            return
+        }
+        mView.showLoading()
+
+        userService.register(mobile, pwd, verifyCode).excute(object : BaseSubscriber<Boolean>(mView) {
+            override fun onNext(t: Boolean) {
+                if (t)
+                    mView.onRegisterResult("注册成功")
+            }
+        }, lifecycleProvider)
+
     }
+
 }
