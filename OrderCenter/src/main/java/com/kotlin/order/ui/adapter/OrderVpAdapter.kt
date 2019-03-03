@@ -1,0 +1,27 @@
+package com.kotlin.order.ui.adapter
+
+import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentPagerAdapter
+import com.kotlin.order.common.OrderConstant
+import com.kotlin.order.ui.fragment.OrderFragment
+
+/**
+ * Create by Pidan
+ */
+class OrderVpAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
+    private var titles = arrayOf("全部", "待付款", "待收货", "已完成", "已取消")
+
+    override fun getItem(position: Int): Fragment {
+        val fragment = OrderFragment()
+        val bundle = Bundle()
+        bundle.putInt(OrderConstant.KEY_ORDER_STATUS, position)
+        fragment.arguments = bundle
+        return fragment
+    }
+
+    override fun getCount(): Int = titles.size
+
+    override fun getPageTitle(position: Int): CharSequence? = titles[position]
+}

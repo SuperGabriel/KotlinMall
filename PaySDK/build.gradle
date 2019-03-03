@@ -1,0 +1,48 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+kapt {
+    arguments {
+        arg("AROUTER_MODULE_NAME", project.getName())
+    }
+}
+
+
+android {
+    compileSdkVersion compile_sdk_version
+    buildToolsVersion build_tools_version
+    defaultConfig {
+        minSdkVersion min_sdk_version
+        targetSdkVersion target_sdk_version
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    repositories {
+        flatDir {
+            dirs 'libs'   // aar目录
+        }
+    }
+}
+
+dependencies {
+    implementation project(':Provider')
+    // 支付宝 SDK AAR 包所需的配置
+    //    implementation (name: 'alipaySdk-15.5.7-20181023110917', ext: 'aar')
+    implementation files('libs/alipaySdk-20180601.jar')
+    /*Dagger2*/
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+    /*ARouter*/
+    kapt "com.alibaba:arouter-compiler:$arouter_compiler_version"
+}
