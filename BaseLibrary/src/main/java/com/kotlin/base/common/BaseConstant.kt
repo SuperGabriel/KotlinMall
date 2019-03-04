@@ -12,7 +12,7 @@ class BaseConstant {
 //        const val SERVER_ADDRESS = "http://192.168.42.116:8080/"
 
         /*Data*/
-        const val SERVER_ADDRESS = "http://127.0.0.1:8080/"
+        const val SERVER_ADDRESS = "http://10.117.131.131:8080/"
         /*Nubia*/
 //        const val SERVER_ADDRESS = "http://192.168.42.77:8080/"
         const val TABLE_PREFS = "Dubal"
